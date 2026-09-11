@@ -1,3 +1,4 @@
+import { withBase } from "@/lib/withBase";
 /**
  * Field Manual Modernism shell: the Anchor Line and compact operational labels give every page a coherent dispatch-desk frame.
  */
@@ -15,7 +16,7 @@ const navItems = [
 export function BrandMark({ light = false }: { light?: boolean }) {
   return (
     <Link href="/" className={`brand-mark ${light ? "brand-mark--light" : ""}`} aria-label="Anchor Home Services home">
-      <img src="/manus-storage/anchor-pin-logo_696152fa.png" alt="" className="brand-mark__icon" />
+      <img src={withBase("/manus-storage/anchor-pin-logo_696152fa.png")} alt="" className="brand-mark__icon" />
       <span className="brand-mark__words"><strong>ANCHOR</strong><small>HOME SERVICES</small></span>
     </Link>
   );
