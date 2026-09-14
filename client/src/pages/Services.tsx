@@ -120,9 +120,11 @@ export default function Services() {
 
           {/* Filter bar */}
           <div className="catalog-controls">
-            <label className="search-wrap">
-              <Search size={16} />
+            <label className="search-wrap" htmlFor="service-search">
+              <Search size={16} aria-hidden="true" />
               <input
+                id="service-search"
+                type="search"
                 placeholder="Search — e.g. 'leak', 'heat', 'tune-up'"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -179,6 +181,7 @@ export default function Services() {
                           key={item.id}
                           className="catalog-item"
                           type="button"
+                          aria-label={`${item.title} — ${item.description}`}
                           onClick={() => setDetailId(item.id)}
                         >
                           <Icon size={22} />
@@ -210,7 +213,7 @@ export default function Services() {
                     const Icon = icons[item.icon];
                     const meta = serviceMeta[item.id];
                     return (
-                      <button key={item.id} className="catalog-item" type="button" onClick={() => setDetailId(item.id)}>
+                      <button key={item.id} className="catalog-item" type="button" aria-label={`${item.title}`} onClick={() => setDetailId(item.id)}>
                         <Icon size={22} />
                         <span className="catalog-item__main">
                           <b>{item.title} <em>Priority path</em></b>
@@ -247,10 +250,13 @@ export default function Services() {
             <p>
               We do not collect a lead and hope for the best. Enter your five-digit ZIP and we will tell you whether Anchor currently serves that address. Works fully on device — no data sent.
             </p>
-            <label className="zip-control">
+            <label className="zip-control" htmlFor="coverage-zip">
               <span className="sr-only">Five-digit ZIP code</span>
-              <MapPin size={18} />
+              <MapPin size={18} aria-hidden="true" />
               <input
+                id="coverage-zip"
+                name="postal-code"
+                autoComplete="postal-code"
                 inputMode="numeric"
                 maxLength={5}
                 placeholder="Enter ZIP code — try 02903"
@@ -268,7 +274,7 @@ export default function Services() {
               <div className={`coverage-result ${result.isCovered ? "coverage-result--yes" : "coverage-result--no"}`}>
                 {result.isCovered ? (
                   <>
-                    <CheckCircle2 />
+                    <CheckCircle2 aria-hidden="true" />
                     <span>
                       <b>You are in the Anchor service area.</b>
                       <small>Booking windows and emergency routing are available for your ZIP.</small>
@@ -277,7 +283,7 @@ export default function Services() {
                   </>
                 ) : (
                   <>
-                    <TriangleAlert />
+                    <TriangleAlert aria-hidden="true" />
                     <span>
                       <b>{result.isFormatValid ? "That ZIP is outside our current route." : "Please enter a five-digit ZIP code."}</b>
                       <small>

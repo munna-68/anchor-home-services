@@ -365,6 +365,8 @@ export default function Booking() {
                     return (
                       <button
                         type="button"
+                        aria-pressed={active}
+                        aria-label={`${item.title} — ${item.description} ${m.price} ${m.duration} ${item.emergency ? " emergency lane" : ""}`}
                         className={`issue-card ${active ? "is-selected" : ""} ${item.emergency ? "issue-card--emergency" : ""}`}
                         key={item.id}
                         onClick={() => setServiceId(item.id)}
@@ -394,9 +396,13 @@ export default function Booking() {
                 <div className="location-block">
                   <span className="field-label booking-location-label">02 / WHERE IS THE SERVICE ADDRESS?</span>
 
-                  <label className="booking-zip" aria-label="ZIP code">
-                    <MapPin size={19} />
+                  <label className="booking-zip" htmlFor="booking-zip">
+                    <MapPin size={19} aria-hidden="true" />
                     <input
+                      id="booking-zip"
+                      name="postal-code"
+                      autoComplete="postal-code"
+                      aria-describedby="zip-hint"
                       value={zip}
                       onChange={(event) => {
                         setZip(event.target.value.replace(/\D/g, "").slice(0, 5));
@@ -406,7 +412,7 @@ export default function Booking() {
                       maxLength={5}
                       placeholder="Five-digit ZIP code"
                     />
-                    <span className="zip-hint">Coverage check</span>
+                    <span id="zip-hint" className="zip-hint">Coverage check</span>
                   </label>
 
                   {/* Live inline validation before button */}
@@ -460,11 +466,14 @@ export default function Booking() {
                   {/* Street address preview — appears early to feel real, but optional until schedule */}
                   {service && zipResult.isCovered && (
                     <div className="street-preview">
-                      <label>
+                      <label htmlFor="street-preview">
                         <span className="field-label">
-                          <HomeIcon size={12} /> Street address (confirm on next step)
+                          <HomeIcon size={12} aria-hidden="true" /> Street address (confirm on next step)
                         </span>
                         <input
+                          id="street-preview"
+                          name="street-address"
+                          autoComplete="street-address"
                           placeholder="123 Benefit St, Providence, RI"
                           value={contact.street}
                           onChange={(e) => setContact((c) => ({ ...c, street: e.target.value }))}
@@ -480,6 +489,7 @@ export default function Booking() {
                     type="button"
                     className="button booking-next"
                     disabled={!serviceId || zip.length !== 5}
+                    aria-disabled={!serviceId || zip.length !== 5}
                     onClick={continueFromDetails}
                   >
                     Continue to availability <ArrowRight size={17} />
@@ -618,18 +628,22 @@ export default function Booking() {
                 <div className="emergency-contact-inline">
                   <span className="field-label">Confirm contact for dispatch</span>
                   <div className="contact-grid contact-grid--compact">
-                    <label>
-                      <span>Name</span>
+                    <label htmlFor="em-name">
+                      <span>Name <span aria-hidden="true" style={{color:"var(--danger)"}}>*</span></span>
                       <input
+                        id="em-name"
+                        autoComplete="name"
                         placeholder="Your name"
                         value={contact.name}
                         onChange={(e) => setContact((c) => ({ ...c, name: e.target.value }))}
                       />
                       {fieldErrors.name && <small className="field-error">{fieldErrors.name}</small>}
                     </label>
-                    <label>
-                      <span>Phone</span>
+                    <label htmlFor="em-phone">
+                      <span>Phone <span aria-hidden="true" style={{color:"var(--danger)"}}>*</span></span>
                       <input
+                        id="em-phone"
+                        autoComplete="tel"
                         placeholder="(401) 555-…"
                         inputMode="tel"
                         value={contact.phone}
@@ -741,6 +755,8 @@ export default function Booking() {
                     return (
                       <button
                         type="button"
+                        aria-pressed={time === slot}
+                        aria-label={`${slot} — ${unavailable ? "Fully assigned" : `${free.length} technicians free`}`}
                         className={`time-slot ${time === slot ? "is-selected" : ""}`}
                         disabled={unavailable}
                         key={slot}
@@ -790,22 +806,26 @@ export default function Booking() {
                     <span className="field-label">03 / CONTACT & ADDRESS</span>
                     <p className="panel-desc small">We hold this exact window for {selectedTech.name}. Add contact to confirm.</p>
                     <div className="contact-grid">
-                      <label>
+                      <label htmlFor="contact-name">
                         <span>
-                          <UserRoundCheck size={12} /> Full name
+                          <UserRoundCheck size={12} aria-hidden="true" /> Full name <span aria-hidden="true" style={{color:"var(--danger)"}}>*</span>
                         </span>
                         <input
+                          id="contact-name"
+                          autoComplete="name"
                           placeholder="Jane Example"
                           value={contact.name}
                           onChange={(e) => setContact((c) => ({ ...c, name: e.target.value }))}
                         />
                         {fieldErrors.name && <small className="field-error">{fieldErrors.name}</small>}
                       </label>
-                      <label>
+                      <label htmlFor="contact-phone">
                         <span>
-                          <Phone size={12} /> Phone
+                          <Phone size={12} aria-hidden="true" /> Phone <span aria-hidden="true" style={{color:"var(--danger)"}}>*</span>
                         </span>
                         <input
+                          id="contact-phone"
+                          autoComplete="tel"
                           placeholder="(401) 555-0198"
                           inputMode="tel"
                           value={contact.phone}
@@ -813,11 +833,13 @@ export default function Booking() {
                         />
                         {fieldErrors.phone && <small className="field-error">{fieldErrors.phone}</small>}
                       </label>
-                      <label>
+                      <label htmlFor="contact-email">
                         <span>
-                          <Mail size={12} /> Email
+                          <Mail size={12} aria-hidden="true" /> Email <span aria-hidden="true" style={{color:"var(--danger)"}}>*</span>
                         </span>
                         <input
+                          id="contact-email"
+                          autoComplete="email"
                           type="email"
                           placeholder="you@example.com"
                           value={contact.email}
@@ -825,11 +847,13 @@ export default function Booking() {
                         />
                         {fieldErrors.email && <small className="field-error">{fieldErrors.email}</small>}
                       </label>
-                      <label>
+                      <label htmlFor="contact-street">
                         <span>
-                          <HomeIcon size={12} /> Street address
+                          <HomeIcon size={12} aria-hidden="true" /> Street address <span aria-hidden="true" style={{color:"var(--danger)"}}>*</span>
                         </span>
                         <input
+                          id="contact-street"
+                          autoComplete="street-address"
                           placeholder="123 Way, Providence, RI 02903"
                           value={contact.street}
                           onChange={(e) => setContact((c) => ({ ...c, street: e.target.value }))}

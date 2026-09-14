@@ -3,7 +3,7 @@ import { withBase } from "@/lib/withBase";
  * Field Manual Modernism shell: the Anchor Line and compact operational labels give every page a coherent dispatch-desk frame.
  */
 import { Anchor, ArrowUpRight, Menu, Phone, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 
 const navItems = [
@@ -27,26 +27,70 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const isActive = (href: string) => location === href || (href !== "/" && location.startsWith(href));
 
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location]);
+
+  const handleToggle = () => setOpen((v) => !v);
   return (
     <header className="site-header">
       <div className="site-header__inside">
         <BrandMark />
         <nav className="site-nav" aria-label="Primary navigation">
-          {navItems.map((item) => <Link key={item.href} href={item.href} className={isActive(item.href) ? "is-active" : ""}>{item.label}</Link>)}
+          {navItems.map((item) => (
+            <Link key={item.href} href={item.href} className={isActive(item.href) ? "is-active" : ""} aria-current={isActive(item.href) ? "page" : undefined}>
+              {item.label}
+            </Link>
+          ))}
         </nav>
         <div className="site-header__actions">
           <a href="tel:+14015550198" className="phone-link"><Phone size={15} aria-hidden="true" />(401) 555-0198</a>
           <Link href="/book" className="button button--small">Schedule now <ArrowUpRight size={15} aria-hidden="true" /></Link>
         </div>
-        <button className="mobile-menu-button" type="button" aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} onClick={() => setOpen((value) => !value)}>
-          {open ? <X /> : <Menu />}
+        <button
+          className="mobile-menu-button"
+          type="button"
+          aria-label={open ? "Close navigation" : "Open navigation"}
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          onClick={handleToggle}
+        >
+          {open ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
-      {open && <nav className="mobile-nav" aria-label="Mobile navigation">
-        {navItems.map((item) => <Link key={item.href} href={item.href} className={isActive(item.href) ? "is-active" : ""} onClick={() => setOpen(false)}>{item.label}</Link>)}
-        <a href="tel:+14015550198"><Phone size={16} /> (401) 555-0198</a>
-        <Link href="/book" className="button" onClick={() => setOpen(false)}>Schedule now <ArrowUpRight size={15} /></Link>
-      </nav>}
+      {open && (
+        <>
+          <button
+            aria-label="Close navigation overlay"
+            className="mobile-nav__backdrop"
+            onClick={() => setOpen(false)}
+            style={{ position: "fixed", inset: 0, top: 72, background: "rgba(24,34,45,.08)", backdropFilter: "blur(2px)", border: "none", zIndex: 29 }}
+          />
+          <nav id="mobile-nav" className="mobile-nav" aria-label="Mobile navigation">
+            {navItems.map((item) => (
+              <Link key={item.href} href={item.href} className={isActive(item.href) ? "is-active" : ""} onClick={() => setOpen(false)}>
+                {item.label}
+              </Link>
+            ))}
+            <a href="tel:+14015550198" onClick={() => setOpen(false)}><Phone size={16} /> (401) 555-0198</a>
+            <Link href="/book" className="button" onClick={() => setOpen(false)}>Schedule now <ArrowUpRight size={15} /></Link>
+          </nav>
+        </>
+      )}
     </header>
   );
 }

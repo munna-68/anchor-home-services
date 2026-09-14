@@ -100,8 +100,12 @@ export default function Home() {
             <p>Enter your ZIP to see the right next step — validated locally, no data sent.</p>
 
             <div className="ticket-zip">
-              <MapPin size={14} />
+              <MapPin size={14} aria-hidden="true" />
               <input
+                id="hero-zip"
+                name="postal-code"
+                autoComplete="postal-code"
+                aria-label="ZIP code for dispatch check"
                 placeholder="ZIP — try 02903"
                 inputMode="numeric"
                 maxLength={5}
@@ -135,7 +139,7 @@ export default function Home() {
         </section>
 
         <section className="proof-strip">
-          <div><Gauge size={19} /><span><b>Technician-aware scheduling</b><small>Slots are tied to real capacity</small></span></div>
+          <div><Gauge size={19} aria-hidden="true" /><span><b>Technician-aware scheduling</b><small>Slots are tied to real capacity</small></span></div>
           <div><MapPin size={19} /><span><b>Clear service-area check</b><small>We say when we cannot help</small></span></div>
           <div><Clock3 size={19} /><span><b>Emergency triage</b><small>Urgent calls take a different route</small></span></div>
         </section>
@@ -209,7 +213,7 @@ export default function Home() {
 
         <section className="standards section-block">
           <div className="section-marker"><span>04 / HOW WE SHOW UP</span><div /></div>
-          <div className="standards-grid"><div><ShieldCheck size={34} /><h3>Respect for your home</h3><p>Clean work area, clear explainers, and no hand-off until you know what changed.</p></div><div><Wrench size={34} /><h3>Work you can follow</h3><p>We describe the issue in plain language and leave you with a useful service record.</p></div><div><Clock3 size={34} /><h3>Time that means something</h3><p>Your selected window belongs to a technician with room in their actual day.</p></div></div>
+          <div className="standards-grid"><div><ShieldCheck size={34} aria-hidden="true" /><h3>Respect for your home</h3><p>Clean work area, clear explainers, and no hand-off until you know what changed.</p></div><div><Wrench size={34} /><h3>Work you can follow</h3><p>We describe the issue in plain language and leave you with a useful service record.</p></div><div><Clock3 size={34} /><h3>Time that means something</h3><p>Your selected window belongs to a technician with room in their actual day.</p></div></div>
         </section>
       </main>
       <Footer />

@@ -113,10 +113,10 @@ export default function About() {
               For active water, loss of heat, or a true urgent event, use emergency booking so that request is triaged correctly. For general questions, call or send a concise note — it’s stored locally for this demo.
             </p>
             <div className="contact-methods">
-              <a href="tel:+14015550198"><Phone size={19} /><span><small>CALL</small><b>(401) 555-0198</b></span></a>
-              <a href="mailto:hello@anchorhomeservices.example"><Mail size={19} /><span><small>EMAIL</small><b>hello@anchorhomeservices.example</b></span></a>
-              <span><MapPin size={19} /><span><small>ROUTE</small><b>Greater Providence, RI</b></span></span>
-              <span><Clock3 size={19} /><span><small>HOURS</small><b>Mon–Sat · 7 AM–6 PM</b></span></span>
+              <a href="tel:+14015550198"><Phone size={19} aria-hidden="true" /><span><small>CALL</small><b>(401) 555-0198</b></span></a>
+              <a href="mailto:hello@anchorhomeservices.example"><Mail size={19} aria-hidden="true" /><span><small>EMAIL</small><b>hello@anchorhomeservices.example</b></span></a>
+              <span><MapPin size={19} aria-hidden="true" /><span><small>ROUTE</small><b>Greater Providence, RI</b></span></span>
+              <span><Clock3 size={19} aria-hidden="true" /><span><small>HOURS</small><b>Mon–Sat · 7 AM–6 PM</b></span></span>
             </div>
 
             {recent.length > 0 && (
@@ -155,9 +155,9 @@ export default function About() {
                 <span className="field-label">GENERAL QUESTION</span>
                 <h3>Leave a clear note.</h3>
 
-                <label>
+                <label htmlFor="about-topic">
                   Topic
-                  <select value={form.topic} onChange={(e) => setForm((f) => ({ ...f, topic: e.target.value }))}>
+                  <select id="about-topic" value={form.topic} onChange={(e) => setForm((f) => ({ ...f, topic: e.target.value }))}>
                     <option>General question</option>
                     <option>Quote for new system</option>
                     <option>Follow-up on visit</option>
@@ -166,24 +166,24 @@ export default function About() {
                 </label>
 
                 <div className="form-row">
-                  <label>
-                    Name {errors.name && <small className="field-error">{errors.name}</small>}
-                    <input placeholder="Your name" value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
+                  <label htmlFor="about-name">
+                    Name {errors.name && <small className="field-error" role="alert">{errors.name}</small>}
+                    <input id="about-name" autoComplete="name" placeholder="Your name" value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
                   </label>
-                  <label>
+                  <label htmlFor="about-phone">
                     Phone (optional)
-                    <input placeholder="(401) 555-…" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} />
+                    <input id="about-phone" autoComplete="tel" placeholder="(401) 555-…" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} />
                   </label>
                 </div>
 
-                <label>
-                  Email {errors.email && <small className="field-error">{errors.email}</small>}
-                  <input type="email" placeholder="you@example.com" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
+                <label htmlFor="about-email">
+                  Email {errors.email && <small className="field-error" role="alert">{errors.email}</small>}
+                  <input id="about-email" autoComplete="email" type="email" placeholder="you@example.com" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
                 </label>
 
-                <label>
-                  What can we help with? {errors.text && <small className="field-error">{errors.text}</small>}
-                  <textarea placeholder="A short description is enough. Include ZIP or address if relevant." rows={4} value={form.text} onChange={(e) => setForm((f) => ({ ...f, text: e.target.value }))} />
+                <label htmlFor="about-text">
+                  What can we help with? {errors.text && <small className="field-error" role="alert">{errors.text}</small>}
+                  <textarea id="about-text" placeholder="A short description is enough. Include ZIP or address if relevant." rows={4} value={form.text} onChange={(e) => setForm((f) => ({ ...f, text: e.target.value }))} />
                 </label>
 
                 <button className="button" type="submit">Send to dispatch <Send size={16} /></button>

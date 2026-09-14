@@ -145,6 +145,7 @@ export default function Plans() {
                   type="button"
                   role="tab"
                   aria-selected={billing === "monthly"}
+                  aria-pressed={billing === "monthly"}
                   className={billing === "monthly" ? "is-active" : ""}
                   onClick={() => setBilling("monthly")}
                 >
@@ -154,6 +155,7 @@ export default function Plans() {
                   type="button"
                   role="tab"
                   aria-selected={billing === "annual"}
+                  aria-pressed={billing === "annual"}
                   className={billing === "annual" ? "is-active" : ""}
                   onClick={() => setBilling("annual")}
                 >
@@ -302,10 +304,10 @@ export default function Plans() {
                 </ul>
               </div>
               <div className="subscription-form">
-                <label>
-                  <span className="field-label">SELECT PLAN</span>
+                <label htmlFor="plan-select">
+                  <span className="field-label">Select plan</span>
                   <span className="select-wrap">
-                    <select value={selected} onChange={(event) => setSelected(event.target.value)}>
+                    <select id="plan-select" value={selected} onChange={(event) => setSelected(event.target.value)}>
                       {plans.map((plan) => (
                         <option value={plan.id} key={plan.id}>
                           {plan.name} · ${plan.price}/month {billing === "annual" ? `(annual $${plan.annual})` : ""}
@@ -326,13 +328,13 @@ export default function Plans() {
                     </button>
                   </div>
                 </div>
-                <label>
-                  <span className="field-label">FULL NAME</span>
-                  <input placeholder="Jane Example" value={name} onChange={(e) => setName(e.target.value)} />
+                <label htmlFor="plan-name">
+                  <span className="field-label">Full name <span aria-hidden="true" style={{color:"var(--danger)"}}>*</span></span>
+                  <input id="plan-name" autoComplete="name" placeholder="Jane Example" value={name} onChange={(e) => setName(e.target.value)} />
                 </label>
-                <label>
-                  <span className="field-label">EMAIL FOR CONFIRMATION</span>
-                  <input type="email" placeholder="you@example.com" value={email} onChange={(event) => setEmail(event.target.value)} />
+                <label htmlFor="plan-email">
+                  <span className="field-label">Email for confirmation <span aria-hidden="true" style={{color:"var(--danger)"}}>*</span></span>
+                  <input id="plan-email" autoComplete="email" type="email" placeholder="you@example.com" value={email} onChange={(event) => setEmail(event.target.value)} />
                 </label>
                 <div className="next-visit">
                   <CalendarDays size={22} />
