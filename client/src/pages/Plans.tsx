@@ -111,11 +111,11 @@ export default function Plans() {
         </PageHero>
 
         <section className="plans-intro section-block">
-          <div className="section-marker">
+          <div className="section-marker" data-reveal="up">
             <span>01 / MEMBERSHIP WITH A PURPOSE</span>
             <div />
           </div>
-          <div className="intro-split">
+          <div className="intro-split" data-reveal="up" data-delay="60">
             <h2>
               Do the easy work
               <br />
@@ -170,11 +170,11 @@ export default function Plans() {
         </section>
 
         <section className="plan-grid">
-          {plans.map((plan) => {
+          {plans.map((plan, i) => {
             const isSelected = selected === plan.id;
             const s = savings(plan);
             return (
-              <article className={`plan-card ${plan.recommended ? "plan-card--featured" : ""} ${isSelected ? "is-selected" : ""}`} key={plan.id}>
+              <article className={`plan-card ${plan.recommended ? "plan-card--featured" : ""} ${isSelected ? "is-selected" : ""}`} key={plan.id} data-reveal="up" data-delay={String(i * 80)}>
                 {plan.recommended && <span className="recommended-label">MOST PRACTICAL</span>}
                 {s > 0 && billing === "annual" && <span className="saving-badge">Save ${s} annually</span>}
                 <span className="field-label">ANCHOR {plan.name.toUpperCase()}</span>

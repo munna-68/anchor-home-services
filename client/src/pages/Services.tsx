@@ -4,9 +4,10 @@ import { withBase } from "@/lib/withBase";
  * searchable catalog, category filtering, pricing + duration meta,
  * detail drawer and pre-filled booking links. No backend, portfolio-ready.
  */
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import {
   ArrowUpRight,
+  CalendarCheck2,
   CheckCircle2,
   Droplets,
   MapPin,
@@ -48,6 +49,108 @@ const serviceMeta: Record<string, { price: string; note: string; duration: strin
 };
 
 type Category = "All" | "HVAC" | "Plumbing" | "Emergency";
+
+const recommenderData = {
+  questions: [
+    {
+      id: "urgency",
+      label: "How urgent is this?",
+      options: [
+        { value: "emergency", label: "It's an emergency — no heat, no water, flooding", icon: ShieldAlert },
+        { value: "soon", label: "Needs attention soon — today or tomorrow", icon: Clock3 },
+        { value: "planned", label: "Can be scheduled — planning ahead", icon: CalendarCheck2 },
+      ],
+    },
+    {
+      id: "type",
+      label: "What system is affected?",
+      options: [
+        { value: "heating", label: "Heating / furnace / boiler", icon: ThermometerSun },
+        { value: "cooling", label: "AC / cooling / heat pump", icon: Wind },
+        { value: "plumbing", label: "Plumbing — pipes, fixtures, drains", icon: Droplets },
+      ],
+    },
+  ] as const,
+  results: {
+    "emergency-heating": { title: "No heat — emergency dispatch", service: "no-heat", description: "We will route the next available emergency technician to your home within 90 minutes." },
+    "emergency-cooling": { title: "No AC — emergency dispatch", service: "no-ac", description: "Emergency cooling response. A technician will arrive within 90 minutes." },
+    "emergency-plumbing": { title: "Plumbing emergency — priority lane", service: "active-leak", description: "Active leak or burst pipe. We will dispatch the next available plumber immediately." },
+    "soon-heating": { title: "Heating repair — priority scheduling", service: "no-heat", description: "Priority scheduling for heating issues. We will find the next available window." },
+    "soon-cooling": { title: "Cooling repair — priority scheduling", service: "no-ac", description: "Priority scheduling for cooling issues. Next available technician assigned." },
+    "soon-plumbing": { title: "Plumbing repair", service: "plumbing-repair", description: "Scheduled plumbing diagnostic and repair. Same-week availability." },
+    "planned-heating": { title: "Seasonal tune-up — HVAC", service: "tune-up", description: "Preventive maintenance to keep your heating system ready for the season." },
+    "planned-cooling": { title: "Seasonal tune-up — HVAC", service: "tune-up", description: "Preventive maintenance to keep your cooling system ready for summer." },
+    "planned-plumbing": { title: "Plumbing inspection", service: "plumbing-repair", description: "Scheduled plumbing check-up and maintenance." },
+  } as Record<string, { title: string; service: string; description: string }>,
+};
+
+function ServiceRecommender() {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+
+  const currentQ = recommenderData.questions[step];
+  const isLast = step === recommenderData.questions.length - 1;
+  const resultKey = `${answers.urgency}-${answers.type}`;
+  const result = recommenderData.results[resultKey];
+
+  const handleSelect = useCallback((value: string) => {
+    const newAnswers = { ...answers, [currentQ.id]: value };
+    setAnswers(newAnswers);
+
+    if (isLast) {
+      // Show result after a brief pause
+      setTimeout(() => setStep(step + 1), 300);
+    } else {
+      setTimeout(() => setStep(step + 1), 300);
+    }
+  }, [answers, currentQ, isLast, step]);
+
+  const reset = () => {
+    setStep(0);
+    setAnswers({});
+  };
+
+  return (
+    <div className="recommender" data-reveal="up">
+      <h3>Not sure where to start?</h3>
+      <p>Answer two quick questions and we will route you to the right service.</p>
+
+      {step < recommenderData.questions.length ? (
+        <div className="recommender-step" key={currentQ.id}>
+          <span className="field-label">{currentQ.label}</span>
+          <div className="recommender-options">
+            {currentQ.options.map((opt) => {
+              const Icon = opt.icon;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  className={`recommender-option ${answers[currentQ.id] === opt.value ? "is-selected" : ""}`}
+                  onClick={() => handleSelect(opt.value)}
+                >
+                  <Icon size={18} />
+                  {opt.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : result ? (
+        <div className="recommender-result">
+          <h4><CheckCircle2 size={18} /> {result.title}</h4>
+          <p>{result.description}</p>
+          <Link href={`/book?service=${result.service}`} className="button">
+            Book now <ArrowUpRight size={16} />
+          </Link>
+          <br />
+          <button type="button" className="text-link" onClick={reset} style={{ marginTop: 12 }}>
+            Start over
+          </button>
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 export default function Services() {
   const [zip, setZip] = useState("");
@@ -102,12 +205,12 @@ export default function Services() {
         </PageHero>
 
         <section className="service-catalog section-block">
-          <div className="section-marker">
+          <div className="section-marker" data-reveal="up">
             <span>01 / PICK A STARTING POINT</span>
             <div />
           </div>
 
-          <div className="catalog-heading">
+          <div className="catalog-heading" data-reveal="up" data-delay="60">
             <h2>
               What can we
               <br />
@@ -239,7 +342,11 @@ export default function Services() {
           </div>
         </section>
 
-        <section className="coverage-checker" id="coverage">
+        <section className="section-block" style={{ paddingTop: 0 }}>
+          <ServiceRecommender />
+        </section>
+
+        <section className="coverage-checker" id="coverage" data-reveal="up">
           <div className="coverage-checker__main">
             <span className="eyebrow">SERVICE-AREA CHECK</span>
             <h2>

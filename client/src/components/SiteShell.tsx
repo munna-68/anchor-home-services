@@ -97,15 +97,28 @@ export function Header() {
 
 export function Footer() {
   return (
-    <footer className="site-footer">
-      <div className="footer-topline"><span>ANCHOR SERVICE DESK</span><i /><span>GREATER PROVIDENCE, RI</span><i /><span>MON–SAT · 7 AM–6 PM</span></div>
-      <div className="footer-main">
-        <div><BrandMark light /><p>HVAC and plumbing service with a clearer path from first question to the right person at your door.</p></div>
-        <div className="footer-links"><span className="field-label">Explore</span><Link href="/services">Services</Link><Link href="/book">Book a service</Link><Link href="/plans">Maintenance plans</Link><Link href="/about">About + Contact</Link></div>
-        <div className="footer-contact"><span className="field-label">Talk to dispatch</span><a href="tel:+14015550198">(401) 555-0198</a><a href="mailto:hello@anchorhomeservices.example">hello@anchorhomeservices.example</a><p>For active water or no heat, choose the emergency path when you book.</p></div>
+    <>
+      <div className="logo-strip-marquee" data-marquee>
+        <div className="logo-strip">
+          <span>Providence Journal</span>
+          <span>Rhode Island Monthly</span>
+          <span>Better Business Bureau</span>
+          <span>EPA Certified</span>
+          <span>NATE Certified</span>
+          <span>RI Licensed #HC-00198</span>
+          <span>Greater Providence Chamber</span>
+        </div>
       </div>
-      <div className="footer-bottom"><span>© 2026 Anchor Home Services</span><span>Built around clear scheduling.</span><Anchor size={17} aria-hidden="true" /></div>
-    </footer>
+      <footer className="site-footer">
+        <div className="footer-topline"><span>ANCHOR SERVICE DESK</span><i /><span>GREATER PROVIDENCE, RI</span><i /><span>MON–SAT · 7 AM–6 PM</span></div>
+        <div className="footer-main">
+          <div><BrandMark light /><p>HVAC and plumbing service with a clearer path from first question to the right person at your door.</p></div>
+          <div className="footer-links"><span className="field-label">Explore</span><Link href="/services">Services</Link><Link href="/book">Book a service</Link><Link href="/plans">Maintenance plans</Link><Link href="/about">About + Contact</Link></div>
+          <div className="footer-contact"><span className="field-label">Talk to dispatch</span><a href="tel:+14015550198">(401) 555-0198</a><a href="mailto:hello@anchorhomeservices.example">hello@anchorhomeservices.example</a><p>For active water or no heat, choose the emergency path when you book.</p></div>
+        </div>
+        <div className="footer-bottom"><span>© 2026 Anchor Home Services</span><span>Built around clear scheduling.</span><Anchor size={17} aria-hidden="true" /></div>
+      </footer>
+    </>
   );
 }
 

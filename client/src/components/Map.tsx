@@ -76,7 +76,7 @@
 
 /// <reference types="@types/google.maps" />
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePersistFn } from "@/hooks/usePersistFn";
 import { cn } from "@/lib/utils";
 
@@ -124,8 +124,17 @@ export function MapView({
 }: MapViewProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<google.maps.Map | null>(null);
+  const [hasApiKey, setHasApiKey] = useState(true);
+
+  useEffect(() => {
+    if (!API_KEY) {
+      setHasApiKey(false);
+      return;
+    }
+  }, []);
 
   const init = usePersistFn(async () => {
+    if (!API_KEY) return;
     await loadMapScript();
     if (!mapContainer.current) {
       console.error("Map container not found");
@@ -146,8 +155,21 @@ export function MapView({
   });
 
   useEffect(() => {
-    init();
-  }, [init]);
+    if (hasApiKey) {
+      init();
+    }
+  }, [init, hasApiKey]);
+
+  if (!hasApiKey) {
+    return (
+      <div className={cn("w-full h-[500px] flex items-center justify-center bg-[#edf1f3] border border-[#d7dfe4]", className)}>
+        <div className="text-center p-6">
+          <div className="text-[#1957c2] text-[10px] font-[800] tracking-[0.14em] uppercase mb-2">Map unavailable</div>
+          <div className="text-[#61707c] text-[13px]">Configure VITE_FRONTEND_FORGE_API_KEY to enable the interactive map.</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div ref={mapContainer} className={cn("w-full h-[500px]", className)} />

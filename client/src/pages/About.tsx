@@ -81,8 +81,8 @@ export default function About() {
         </PageHero>
 
         <section className="about-intro section-block">
-          <div className="section-marker"><span>01 / WHY ANCHOR EXISTS</span><div /></div>
-          <div className="about-statement">
+          <div className="section-marker" data-reveal="up"><span>01 / WHY ANCHOR EXISTS</span><div /></div>
+          <div className="about-statement" data-reveal="up" data-delay="60">
             <h2>Good home service should not require a leap of faith.</h2>
             <div>
               <p>
@@ -96,7 +96,7 @@ export default function About() {
           </div>
         </section>
 
-        <section className="standards-detail">
+        <section className="standards-detail" data-reveal="up">
           <div className="standards-detail__visual"><div className="detail-line" /><span>THE ANCHOR STANDARD</span></div>
           <div className="standards-detail__copy">
             <div><b>01</b><span><h3>Say what happens next</h3><p>Every interaction should lead to a known next action, not a dead-end request form.</p></span></div>
@@ -105,7 +105,7 @@ export default function About() {
           </div>
         </section>
 
-        <section className="contact-section" id="contact">
+        <section className="contact-section" id="contact" data-reveal="up">
           <div className="contact-info">
             <span className="eyebrow">TALK TO DISPATCH</span>
             <h2>Start with the<br /><em>right channel.</em></h2>

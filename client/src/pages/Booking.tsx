@@ -1018,6 +1018,35 @@ export default function Booking() {
             </motion.section>
           )}
         </AnimatePresence>
+
+        {/* Sticky mobile action bar — shows current selection + primary action */}
+        {stage !== "confirmed" && service && (
+          <div className="booking-sticky-bar" role="status" aria-live="polite">
+            <div className="booking-sticky-bar__info">
+              <span className="field-label">{service.emergency ? "Emergency lane" : "Standard lane"}</span>
+              <b>{service.title} · {zip || "—"}</b>
+              <small>{meta ? `${meta.price} · ${meta.duration}` : "Choose a service"}</small>
+            </div>
+            {stage === "details" ? (
+              <button
+                type="button"
+                className="button"
+                disabled={!serviceId || zip.length !== 5}
+                onClick={continueFromDetails}
+              >
+                Continue
+              </button>
+            ) : time && selectedTech ? (
+              <button type="button" className="button" onClick={confirmBooking}>
+                Hold time
+              </button>
+            ) : (
+              <button type="button" className="button" disabled>
+                Choose time
+              </button>
+            )}
+          </div>
+        )}
       </main>
       <Footer />
     </div>
