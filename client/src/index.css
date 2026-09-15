@@ -964,3 +964,355 @@ img { max-width: 100%; height: auto; }
 
 /* Disable content-visibility that breaks fullPage rendering and printing */
 .coverage-section, .plan-callout, .standards { content-visibility: visible !important; contain-intrinsic-size: auto !important; }
+
+/* ================================================================
+   IMPECCABLE POLISH — wide-screen containers & rhythm
+   Fixes edge-to-edge on >1440, service hero spacing, book mobile
+   ================================================================ */
+
+/* ——— Global container rhythm —————————————————————————————— */
+:root {
+  --container: 1280px;
+  --container-wide: 1440px;
+}
+
+/* Centered containers with consistent gutters (24px min) */
+.section-block,
+.booking-page,
+.contact-section,
+.service-catalog,
+.plans-intro,
+.plan-grid,
+.plan-compare,
+.faq-section,
+.about-statement,
+.coverage-section {
+  width: min(var(--container), calc(100% - 48px));
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Section vertical rhythm: not uniform 116, vary for hierarchy */
+.section-block { padding-top: 88px; padding-bottom: 88px; }
+@media (max-width: 680px) {
+  .section-block,
+  .booking-page,
+  .contact-section,
+  .service-catalog,
+  .plans-intro,
+  .plan-grid,
+  .plan-compare { width: calc(100% - 32px); }
+}
+
+/* ——— Header container ———————————————————————————————— */
+.site-header__inside {
+  width: min(var(--container-wide), calc(100% - 48px));
+  max-width: var(--container-wide);
+  margin: 0 auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+@media (max-width: 680px) {
+  .site-header__inside { width: calc(100% - 32px); }
+}
+
+/* ——— Hero: keep image full-bleed, constrain content to container ——— */
+.hero-home {
+  /* keep full-bleed image, but content is centered */
+  padding: 0;
+  min-height: 560px;
+}
+.hero-home__image,
+.hero-home__wash { inset: 0; }
+.hero-home__content {
+  width: min(640px, calc(100% - 48px));
+  max-width: 640px;
+  margin-left: max(24px, calc((100vw - var(--container))/2 + 24px)) !important;
+  margin-right: auto;
+  padding-top: 96px;
+  padding-bottom: 88px;
+  position: relative;
+  z-index: 2;
+}
+.hero-home h1 { font-size: clamp(48px, 5.6vw, 84px); line-height: .92; letter-spacing: -.05em; }
+.hero-home__content > p { font-size: 17px; line-height: 1.65; max-width: 520px; }
+.hero-stats { border-color: rgba(215,223,228,.9); }
+.hero-ticket {
+  right: max(24px, calc((100vw - var(--container))/2 + 24px)) !important;
+  left: auto;
+  width: 312px;
+}
+.hero-rail {
+  left: max(16px, calc((100vw - var(--container))/2 - 40px));
+}
+
+/* Hero operating & coverage: avoid edge-to-edge on ultra-wide */
+.operating-section,
+.coverage-section,
+.plan-callout {
+  width: min(var(--container), calc(100% - 48px));
+  max-width: var(--container);
+  margin-left: auto !important;
+  margin-right: auto !important;
+  border-radius: 0;
+  overflow: hidden;
+}
+.operating-section {
+  min-height: 560px;
+  background: var(--ink);
+  /* outer full-bleed background via pseudo if needed, but container keeps breathing room */
+}
+@media (min-width: 1441px) {
+  .operating-section,
+  .coverage-section,
+  .plan-callout,
+  .coverage-checker {
+    box-shadow: 0 0 0 1px var(--line);
+  }
+  .hero-home { box-shadow: 0 1px 0 var(--line); }
+}
+
+/* ——— Page hero containers ———————————————————————————— */
+.page-hero {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+.page-hero__content {
+  width: min(720px, calc(100% - 48px));
+  max-width: 720px;
+  margin-left: max(24px, calc((100vw - var(--container))/2 + 24px));
+  padding-right: 24px;
+}
+.page-hero .dispatch-rail {
+  left: max(16px, calc((100vw - var(--container))/2 - 40px));
+  position: absolute;
+}
+
+/* ——— Service page: hero button + avg response spacing ——————— */
+.page-hero .button { margin-right: 12px; }
+.hero-sub-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px !important;
+  padding: 8px 10px;
+  background: rgba(255,255,255,.86);
+  border: 1px solid rgba(215,223,228,.9);
+  backdrop-filter: blur(6px);
+  font-size: 11px;
+  font-weight: 700;
+  color: #3b4a56;
+  flex-wrap: wrap;
+}
+.hero-sub-note i,
+.hero-sub-note svg { flex: 0 0 auto; }
+.hero-plans-cta { gap: 10px; margin-top: 16px !important; }
+.hero-plans-cta span { gap: 6px; padding: 7px 10px; }
+
+@media (max-width: 680px) {
+  .page-hero__content {
+    width: calc(100% - 32px);
+    margin-left: 16px;
+    padding-right: 0;
+  }
+  .page-hero .dispatch-rail { display: none; }
+  .page-hero .button {
+    width: 100%;
+    margin-right: 0;
+    justify-content: center;
+  }
+  .hero-sub-note {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    padding: 10px 12px;
+    margin-top: 12px !important;
+    background: rgba(255,255,255,.92);
+  }
+  /* split the two stats onto one line with proper dot separator */
+  .hero-sub-note { flex-direction: row; flex-wrap: wrap; }
+}
+
+/* ——— Book page: mobile polish ——————————————————————————— */
+@media (max-width: 680px) {
+  .booking-page {
+    width: calc(100% - 32px);
+    padding-bottom: 32px;
+  }
+  .booking-head {
+    gap: 12px;
+    padding: 20px 0 16px;
+  }
+  .booking-head h1 {
+    font-size: 26px;
+    line-height: .96;
+    letter-spacing: -.04em;
+  }
+  .booking-head__sub { font-size: 13.5px; line-height: 1.6; margin-top: 8px; }
+  .booking-head__meta {
+    margin-top: 10px;
+    padding: 7px 10px;
+    font-size: 10.5px;
+    gap: 8px;
+    background: #f8fafb;
+    border: 1px solid var(--line);
+  }
+  .booking-progress {
+    margin: 0 0 12px;
+    border-radius: 0;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    box-shadow: 0 1px 0 rgba(24,34,45,.06);
+  }
+  .booking-progress > span {
+    min-height: 56px;
+    padding: 8px 6px;
+    gap: 6px;
+    font-size: 11px;
+    justify-content: center;
+    text-align: center;
+  }
+  .booking-progress > span b { font-size: 11px; letter-spacing: -.02em; }
+  /* cards: more breathing, tactile */
+  .booking-panel,
+  .scheduler {
+    width: 100%;
+    margin: 0;
+    gap: 14px;
+  }
+  .booking-panel__main,
+  .scheduler-main {
+    padding: 20px 16px;
+    border: 1px solid var(--line);
+    background: #fff;
+    box-shadow: 6px 6px 0 rgba(25,87,194,.06);
+  }
+  .panel-heading h2 { font-size: 22px; line-height: 1.05; margin: 8px 0 6px; }
+  .panel-desc { font-size: 12.5px; line-height: 1.6; }
+  .issue-grid { gap: 10px; margin-top: 16px; }
+  .issue-card {
+    min-height: 86px;
+    padding: 14px 12px;
+    gap: 12px;
+    border: 1.5px solid var(--line);
+    background: #fbfcfc;
+    align-items: center;
+  }
+  .issue-card__icon { width: 36px; height: 36px; flex: 0 0 36px; }
+  .issue-card__text { gap: 3px; }
+  .issue-card__text b { font-size: 13px; }
+  .issue-card__text small { font-size: 11px; line-height: 1.45; }
+  .issue-card__meta { margin-top: 4px; gap: 6px; font-size: 10px; }
+  .check-ring { width: 20px; height: 20px; }
+
+  .location-block { margin-top: 22px; }
+  .booking-zip {
+    min-height: 52px;
+    padding: 0 12px;
+    gap: 10px;
+    background: #fbfcfc;
+    border: 1.5px solid #b9c6ce;
+  }
+  .booking-zip input { font-size: 16px !important; }
+  .booking-zip input::placeholder { color: #8ea0ad; }
+
+  .booking-cta-row { gap: 12px; margin-top: 18px; }
+  .booking-next {
+    width: 100%;
+    min-height: 52px;
+    font-size: 15px;
+    justify-content: center;
+  }
+  .cta-note { font-size: 11px; justify-content: center; text-align: center; }
+
+  .booking-panel__side,
+  .scheduler-side {
+    padding: 18px 16px;
+    background: #f8fafb;
+    border: 1px solid var(--line);
+    box-shadow: 6px 6px 0 rgba(25,87,194,.06);
+  }
+  .price-card { background: #fff; border: 1px solid var(--line); box-shadow: none; padding: 14px; }
+  .price-card__top b { font-size: 22px; }
+}
+
+/* Desktop book: more air */
+.booking-panel { gap: 0; }
+.booking-panel__main { padding: 36px 32px; }
+.panel-heading h2 { font-size: 32px; }
+.issue-card { transition: all .18s var(--ease-expo); }
+.issue-card:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(24,34,45,.08); }
+
+/* ——— Plans: buttons & spacing ————————————————————————— */
+.plan-card { padding: 28px 22px; }
+.plan-card .button { min-height: 48px; font-size: 13.5px; letter-spacing: -.01em; }
+.plan-card--featured .button { background: var(--cobalt); color: #fff; border: 1px solid var(--cobalt); }
+.plan-card--featured .button:hover { background: var(--cobalt-hover); transform: translate(-1px,-1px); box-shadow: 4px 4px 0 rgba(24,34,45,.12); }
+.plan-card .button--outline { background: #fff; color: var(--ink); border: 1.5px solid var(--line); }
+.plan-card .button--outline:hover { background: #f8fafb; border-color: var(--ink); }
+
+.price-block { padding: 18px 0; margin: 18px 0; }
+.price-block b { font-size: 44px; }
+.price-block small { line-height: 1.5; }
+
+@media (max-width: 680px) {
+  .plan-card { padding: 20px 16px; }
+  .plan-card h2 { font-size: 22px; }
+  .price-block b { font-size: 36px; }
+  .plan-card .button { width: 100%; justify-content: center; }
+  .plan-card ul { gap: 9px; margin-bottom: 18px; }
+  .plan-card li { font-size: 12.5px; gap: 8px; }
+}
+
+/* ——— Footer: container & rhythm ———————————————————————— */
+.site-footer {
+  padding-left: max(24px, calc((100vw - var(--container))/2 + 24px));
+  padding-right: max(24px, calc((100vw - var(--container))/2 + 24px));
+}
+.footer-main, .footer-bottom, .footer-topline {
+  width: 100%;
+  max-width: var(--container);
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 680px) {
+  .site-footer { padding-left: 16px; padding-right: 16px; }
+}
+
+/* ——— Coverage checker: container ——————————————————————— */
+.coverage-checker {
+  width: min(var(--container), calc(100% - 48px));
+  max-width: var(--container);
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+@media (max-width: 680px) {
+  .coverage-checker { width: calc(100% - 32px); }
+}
+
+/* ——— Subtle polish: text balance, button hover ——————————————— */
+.text-link { gap: 6px; }
+.button { will-change: transform; }
+@media (hover: hover) {
+  .button:hover { transform: translate(-1px,-1px); }
+}
+
+/* ——— Fix proof-strip container on wide ———————————————— */
+.proof-strip {
+  width: min(var(--container), calc(100% - 48px));
+  max-width: var(--container);
+  margin: 0 auto;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+@media (max-width: 680px) {
+  .proof-strip { width: calc(100% - 32px); border-left: none; border-right: none; }
+}
+
+/* ——— Operating copy: tighter type —————————————————————— */
+.operating-copy h2 { font-size: clamp(36px, 4vw, 52px); line-height: .96; }
+.operating-copy p { max-width: 480px; line-height: 1.6; }
