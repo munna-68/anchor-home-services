@@ -669,12 +669,12 @@ h1, h2, h3, p { overflow-wrap: break-word; }
 .service-card p { font-size: 13.5px; line-height: 1.5; }
 @media (max-width: 680px) {
   .service-grid { grid-template-columns: 1fr; }
-  .service-card { min-height: auto; padding: 18px 16px 20px; display: grid; grid-template-columns: 40px 1fr auto; gap: 12px; align-items: start; }
-  .service-card__number { position: static; font-size: 10px; align-self: start; padding-top: 2px; }
-  .service-card svg { width: 28px; height: 28px; }
-  .service-card h3 { margin: 0 0 6px; font-size: 18px; }
-  .service-card p { max-width: none; font-size: 13px; margin: 0; }
-  .service-card__arrow { position: static; width: 32px; height: 32px; align-self: center; }
+  .service-card { min-height: auto; padding: 20px 16px; }
+  .service-card__number { top: 16px; right: 16px; font-size: 10px; }
+  .service-card svg { width: 24px; height: 24px; }
+  .service-card h3 { margin: 32px 0 8px; font-size: 18px; line-height: 1.1; }
+  .service-card p { max-width: none; font-size: 13px; line-height: 1.55; margin: 0 0 8px; }
+  .service-card__arrow { right: 16px; bottom: 16px; width: 32px; height: 32px; }
   .service-grid > .service-card:nth-child(2) { transform: none; }
 }
 
